@@ -6,7 +6,7 @@
 
 视频播放器，基于 [mpv](https://mpv.io) + [uosc](https://github.com/tomasklaen/uosc) 打造。
 
-![](mpv/mpv.png)
+![](images/mpv.png)
 
 - `mpv.conf` — 主配置文件（快捷键、解码、画质等）
 - `script-opts/uosc.conf` — uosc 界面配置
@@ -16,6 +16,8 @@
 ## Rime
 
 中文输入法，基于 [雾凇拼音](https://github.com/iDvel/rime-ice)。
+
+![](images/rime.png)
 
 - `default.custom.yaml` — 全局自定义
 - `weasel.custom.yaml` — 小狼毫前端配置
