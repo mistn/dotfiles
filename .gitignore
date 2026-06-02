@@ -1,0 +1,21 @@
+# mpv 缓存：着色器编译产物与播放进度记录
+mpv/portable_config/cache/
+mpv/portable_config/watch_later/
+
+# Rime 编译生成物与运行缓存
+Rime/build/
+Rime/installation.yaml
+Rime/user.yaml
+
+# Rime 用户词库（通配兜底，Rime 内部也有 .gitignore）
+*.userdb/
+
+# Rime 根级自定义配置：内层 .gitignore 排除了 *.custom.yaml，需 git add -f 强制追踪
+# Rime/weasel.custom.yaml
+# Rime/default.custom.yaml
+# Rime/rime_ice.custom.yaml
+# Rime/double_pinyin_flypy.custom.yaml
+
+# 全局兜底：编译产物与备份文件
+*.bin
+*.bak

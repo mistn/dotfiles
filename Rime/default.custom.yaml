@@ -1,0 +1,14 @@
+customization:
+  distribution_code_name: Weasel
+  distribution_version: 0.17.4
+  generator: "Rime::SwitcherSettings"
+  modified_time: "Sat May  9 15:26:13 2026"
+  rime_version: 1.13.1
+patch:
+  schema_list:
+    - {schema: double_pinyin_flypy}
+  "key_binder/select_first_character": "Control+bracketleft"
+  "key_binder/select_last_character": "Control+bracketright"
+  "key_binder/bindings/+":
+    - { when: has_menu, accept: bracketleft, send: Page_Up }
+    - { when: has_menu, accept: bracketright, send: Page_Down }

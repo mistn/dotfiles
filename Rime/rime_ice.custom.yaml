@@ -1,0 +1,10 @@
+# 雾凇拼音自定义配置
+# 编码：UTF-8
+
+patch:
+  # 取消以词定字功能，改用 [ ] 键翻页
+  "key_binder/select_first_character": ""   # 取消 [ 键的以词定字
+  "key_binder/select_last_character": ""    # 取消 ] 键的以词定字
+  "key_binder/bindings/+":
+    - { when: has_menu, accept: bracketleft, send: Page_Up }     # [ 键翻到上一页候选
+    - { when: has_menu, accept: bracketright, send: Page_Down }  # ] 键翻到下一页候选
