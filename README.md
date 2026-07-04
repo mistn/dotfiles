@@ -28,7 +28,7 @@
 
 ## 终端美化
 
-> 完整教程：[Windows 终端美化](https://blog.2731515.xyz/posts/windows-terminal-beautify/)
+> 完整教程：[Windows 终端美化](https://blog.miuo.me/en/posts/windows-terminal-beautify/)
 
 基于 [Windows Terminal](https://github.com/microsoft/terminal) + [Fastfetch](https://github.com/fastfetch-cli/fastfetch) + [chafa](https://github.com/hpjansson/chafa)，搭配 Catppuccin Mocha 配色与 JetBrainsMono Nerd Font。
 
