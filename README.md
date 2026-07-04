@@ -39,6 +39,12 @@
 
 - `settings.json` — 配色、字体、按键绑定等
 
+## PowerShell
+
+终端美化，oh-my-posh 等。
+
+- `profile.ps1` — PowerShell 启动脚本
+
 ## 使用
 
 ```powershell
@@ -57,4 +63,7 @@ New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\fastfetch" -Targ
 # Windows Terminal — 将 settings.json 软链接到 Terminal 配置目录
 $WT = Resolve-Path "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_*\LocalState"
 New-Item -ItemType SymbolicLink -Path "$WT\settings.json" -Target "D:\dotfiles\terminal\settings.json"
+
+# PowerShell — 将 profile.ps1 软链接到 PowerShell 目录
+New-Item -ItemType SymbolicLink -Path "$PROFILE" -Target "D:\dotfiles\powershell\profile.ps1"
 ```
