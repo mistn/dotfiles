@@ -26,24 +26,24 @@
 - `custom_phrase.txt` — 自定义短语
 - 其余为雾凇拼音上游词库、方案、Lua 脚本
 
-## fastfetch
+## 终端美化
 
-终端信息展示工具，基于 [fastfetch](https://github.com/fastfetch-cli/fastfetch)。
+> 完整教程：[Windows 终端美化](https://blog.2731515.xyz/posts/windows-terminal-beautify/)
 
-- `config.jsonc` — 主配置（模块布局、颜色主题等）
-- `ascii.txt` — ASCII 艺术字
+基于 [Windows Terminal](https://github.com/microsoft/terminal) + [Fastfetch](https://github.com/fastfetch-cli/fastfetch) + [chafa](https://github.com/hpjansson/chafa)，搭配 Catppuccin Mocha 配色与 JetBrainsMono Nerd Font。
 
-## Windows Terminal
+### Windows Terminal
 
-终端应用，基于 [Windows Terminal](https://github.com/microsoft/terminal)。
+- `settings.json` — 配色方案、亚克力模糊、字体、按键绑定
 
-- `settings.json` — 配色、字体、按键绑定等
+### PowerShell
 
-## PowerShell
+- `profile.ps1` — UTF-8 编码、启动 Fastfetch、oh-my-posh 主题
 
-终端美化，oh-my-posh 等。
+### fastfetch
 
-- `profile.ps1` — PowerShell 启动脚本
+- `config.jsonc` — 模块布局、Catppuccin 色板
+- `ascii.txt` — chafa 生成的 ANSI 字符画
 
 ## 使用
 
