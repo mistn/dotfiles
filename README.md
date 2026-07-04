@@ -32,6 +32,8 @@
 
 基于 [Windows Terminal](https://github.com/microsoft/terminal) + [Fastfetch](https://github.com/fastfetch-cli/fastfetch) + [chafa](https://github.com/hpjansson/chafa)，搭配 Catppuccin Mocha 配色与 JetBrainsMono Nerd Font。
 
+![](images/terminal.png)
+
 ### Windows Terminal
 
 - `settings.json` — 配色方案、亚克力模糊、字体、按键绑定
