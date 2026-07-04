@@ -26,6 +26,13 @@
 - `custom_phrase.txt` — 自定义短语
 - 其余为雾凇拼音上游词库、方案、Lua 脚本
 
+## fastfetch
+
+终端信息展示工具，基于 [fastfetch](https://github.com/fastfetch-cli/fastfetch)。
+
+- `config.jsonc` — 主配置（模块布局、颜色主题等）
+- `ascii.txt` — ASCII 艺术字
+
 ## 使用
 
 ```powershell
@@ -37,4 +44,7 @@ New-Item -ItemType SymbolicLink -Path "$env:SCOOP\persist\mpv\portable_config" -
 
 # Rime — 将 Rime 目录软链接到 Rime 用户目录
 New-Item -ItemType SymbolicLink -Path "$env:APPDATA\Rime" -Target "D:\dotfiles\Rime"
+
+# fastfetch — 将 fastfetch 目录软链接到 .config
+New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\fastfetch" -Target "D:\dotfiles\fastfetch"
 ```
