@@ -33,6 +33,12 @@
 - `config.jsonc` — 主配置（模块布局、颜色主题等）
 - `ascii.txt` — ASCII 艺术字
 
+## Windows Terminal
+
+终端应用，基于 [Windows Terminal](https://github.com/microsoft/terminal)。
+
+- `settings.json` — 配色、字体、按键绑定等
+
 ## 使用
 
 ```powershell
@@ -47,4 +53,8 @@ New-Item -ItemType SymbolicLink -Path "$env:APPDATA\Rime" -Target "D:\dotfiles\R
 
 # fastfetch — 将 fastfetch 目录软链接到 .config
 New-Item -ItemType SymbolicLink -Path "$env:USERPROFILE\.config\fastfetch" -Target "D:\dotfiles\fastfetch"
+
+# Windows Terminal — 将 settings.json 软链接到 Terminal 配置目录
+$WT = Resolve-Path "$env:LOCALAPPDATA\Packages\Microsoft.WindowsTerminal_*\LocalState"
+New-Item -ItemType SymbolicLink -Path "$WT\settings.json" -Target "D:\dotfiles\terminal\settings.json"
 ```
