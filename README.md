@@ -47,6 +47,12 @@
 - `config.jsonc` — 模块布局、Catppuccin 色板
 - `ascii.txt` — chafa 生成的 ANSI 字符画
 
+## Artalk
+
+博客评论系统，基于 [Artalk](https://artalk.js.org)。
+
+- `reply-template.html` — 邮件回复通知模板
+
 ## 使用
 
 ```powershell

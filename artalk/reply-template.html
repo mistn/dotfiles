@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邮件通知</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+        .header {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            text-align: center;
+        }
+        .header h1 { margin: 0; font-size: 24px; }
+        .content { padding: 20px; line-height: 1.6; }
+        .content h2 { font-size: 18px; color: #333333; margin-top: 0; }
+        .content p { font-size: 14px; color: #555555; }
+        .content a { color: #1a1a1a; font-weight: bold; text-decoration: none; border-bottom: 1px solid #1a1a1a; }
+        .comment { background-color: #f9f9f9; border-radius: 5px; padding: 15px; margin-bottom: 20px; border-left: 3px solid #1a1a1a; }
+        .comment .author { font-weight: bold; color: #333333; }
+        .comment .text { margin-top: 10px; color: #555555; }
+        .footer { text-align: center; padding: 20px; background-color: #f4f4f4; border-radius: 0 0 10px 10px; font-size: 12px; color: #888888; }
+        .footer a { color: #555555; text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>您有新的回复</h1>
+        </div>
+        <div class="content">
+            <h2>Hi, {{nick}}!</h2>
+            <p>您在 <a href="{{page_url}}" target="_blank">{{page_title}}</a> 上的留言有人回复了。</p>
+
+            <div class="comment">
+                <div class="author">您曾经的评论：</div>
+                <div class="text">{{content}}</div>
+            </div>
+
+            <div class="comment">
+                <div class="author">{{reply_nick}} 回复您：</div>
+                <div class="text">{{reply_content}}</div>
+            </div>
+
+            <p>点击 <a href="{{link_to_reply}}" target="_blank">这里</a> 前往站点查看完整回复。</p>
+        </div>
+        <div class="footer">
+            <p>本邮件由系统自动发送，但随时欢迎直接回复本邮件与我交流！</p>
+            <p>Copyright &copy; 2026 <a href="https://miuo.me" target="_blank">miuo</a></p>
+        </div>
+    </div>
+</body>
+</html>
