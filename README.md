@@ -53,6 +53,13 @@
 
 - `reply-template.html` — 邮件回复通知模板
 
+## Anki
+
+学习卡片工具，自制插件自动同步学习数据到 Gist。
+
+- `__init__.py` — 插件入口（工具栏按钮 + 菜单）
+- `gist_updater.py` — 获取学习数据、更新 Gist
+
 ## 使用
 
 ```powershell
