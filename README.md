@@ -53,6 +53,14 @@
 
 - `reply-template.html` — 邮件回复通知模板
 
+## Komari
+
+服务器监控工具，Telegram 通知脚本。
+
+- `notification-template.txt` — TG 通知模板（离线/上线/告警/续费/到期）
+
+![](images/komari.png)
+
 ## Anki
 
 学习卡片工具，自制插件自动同步学习数据到 Gist。

@@ -1,0 +1,109 @@
+async function sendMessage(message, title, instanceId = null) {
+  const token = "TG机器人的Token";
+  const chatId = "TG的ID";
+  const panelUrl = "探针地址"; 
+
+  if (!token || !chatId) return false;
+
+  const url = `https://api.telegram.org/bot${token}/sendMessage`;
+  
+  // 构建交互按钮
+  let inline_keyboard = [];
+  let row1 = [{ text: "📊 进入面板", url: panelUrl }];
+
+  // 这里的路径修正为 /instance/，匹配你提供的格式
+  if (instanceId && instanceId !== '未知') {
+    row1.push({ 
+      text: "🌐 实例详情", 
+      url: `${panelUrl}/instance/${instanceId}` 
+    });
+  }
+  
+  inline_keyboard.push(row1);
+
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: `<b>${title}</b>\n\n${message}`,
+      parse_mode: 'HTML',
+      reply_markup: { inline_keyboard: inline_keyboard }
+    }),
+  });
+  return resp.ok;
+}
+
+async function sendEvent(event) {
+  try {
+    // ⏰ 时间转换函数 (处理 CST)
+    const getCSTTime = (timeStr) => {
+      if (!timeStr || timeStr.startsWith('0001')) return "1-01-01 08:00:00";
+      const date = new Date(timeStr.replace(/\.\d+Z$/, 'Z'));
+      const cst = new Date(date.getTime() + 8 * 60 * 60 * 1000);
+      const f = (n) => n.toString().padStart(2, '0');
+      return `${cst.getUTCFullYear()}-${f(cst.getUTCMonth() + 1)}-${f(cst.getUTCDate())} ${f(cst.getUTCHours())}:${f(cst.getUTCMinutes())}:${f(cst.getUTCSeconds())}`;
+    };
+
+    // 📦 流量单位转换函数
+    const formatTraffic = (bytes) => {
+      if (!bytes || bytes === 0) return '无限制';
+      const gb = bytes / (1024 ** 3);
+      if (gb >= 1024) return `${(gb / 1024).toFixed(2)} TB`;
+      return `${gb.toFixed(2)} GB`;
+    };
+
+    const eventMap = {
+      'Offline': { cn: '离线', icon: '🔴 🔴 🔴' },
+      'Online':  { cn: '上线', icon: '🟢 🟢 🟢' },
+      'Alert':   { cn: '告警', icon: '⚠️ ⚠️ ⚠️' },
+      'Renew':   { cn: '续费', icon: '💰 💰 💰' },
+      'Expire':  { cn: '到期', icon: '🚨 🚨 🚨' },
+      'Test':    { cn: '测试', icon: '🧪 🧪 🧪' }
+    };
+    
+    const ev = eventMap[event.event] || { cn: event.event, icon: 'ℹ️ ℹ️ ℹ️' };
+    const title = `\u200B${ev.icon} 服务器${ev.cn}通知`;
+
+    let clientInfo = '';
+    let targetInstanceId = null;
+
+    if (event.clients && event.clients.length > 0) {
+      const c = event.clients[0];
+      targetInstanceId = c.uuid; // 对应 URL 最后的 UUID 部分
+      
+      const region = c.region ? ` [${c.region}]` : '';
+      const cpu = c.cpu_cores || '0';
+      const mem = c.mem_total ? Math.round(c.mem_total / (1024 ** 3)) : '0';
+      const disk = c.disk_total ? Math.round(c.disk_total / (1024 ** 3)) : '0';
+      
+      clientInfo += `服务器：${c.name}${region}\n`;
+      clientInfo += `配置：${cpu}C / ${mem}G / ${disk}G\n`;
+      clientInfo += `IPv4：${c.ipv4 || '未知'}\n`;
+      clientInfo += `IPv6：${c.ipv6 || '未知'}\n`;
+      
+      // 流量管家
+      const trafficLimit = formatTraffic(c.traffic_limit);
+      clientInfo += `流量限额：${trafficLimit}${c.traffic_limit_type ? ` (${c.traffic_limit_type})` : ''}\n`;
+      
+      if (event.event === 'Renew' || event.event === 'Expire') {
+         clientInfo += `账单：${c.currency || '$'}${c.price || '0'} (${c.billing_cycle || '0'}天/付)\n`;
+      }
+    } else {
+      clientInfo += `服务器：未知设备\n配置：未知\nIPv4：未知\nIPv6：未知\n流量限额：未知\n`;
+    }
+
+    let message = clientInfo;
+    message += `\n状态：${event.event} (${ev.cn})\n`;
+    message += `时间：${getCSTTime(event.time)} (CST)`;
+
+    if (event.message && event.message.trim()) {
+      message += `\n\n详细描述：\n<i>${event.message}</i>`;
+    }
+
+    // 发送通知，传入真正的 UUID 以生成正确的按钮链接
+    return await sendMessage(message, title, targetInstanceId);
+  } catch (error) {
+    return await sendMessage(`脚本解析出错: ${error.message}`, '❌ Error');
+  }
+}
