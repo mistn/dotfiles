@@ -19,29 +19,34 @@ TEMP_DIR="/tmp/vps_backup"
 DATE=$(date +%Y%m%d_%H%M%S)
 FILE_NAME="vps_backup_${DATE}.tar.gz"
 
-REMOTE_NAME="infini"             # 已配置好的 rclone 名称
-REMOTE_DIR="vps_backup"          # 网盘上的全新保存文件夹（无需手动创建，自动生成）
-RETENTION_DAYS=7                 # 云端自动保留最近 7 天的备份
+REMOTE_NAME="infini"             # rclone 配置的网盘名称
+REMOTE_DIR="vps_backup"          # 云端存储文件夹
+RETENTION_DAYS=7                 # 云端保留最近 7 天的备份
 
 # 1. 创建本地临时打包目录
 mkdir -p $TEMP_DIR
 
-# 2. 打包核心文件与数据 (Nginx 配置+证书、Wallos 数据、脚本自身)
+# 2. 打包核心文件与数据
+#    - /etc/nginx    : 443 SNI分流配置 + 各网站conf + 所有SSL证书
+#    - /opt/wallos   : Wallos 账单数据库 + 自定义Logo + docker-compose
+#    - /opt/openlist : OpenList 网盘数据库 + 挂载账号配置
+#    - /opt/backup.sh: 备份脚本自身
 tar -czf ${TEMP_DIR}/${FILE_NAME} \
     /etc/nginx \
     /opt/wallos \
+    /opt/openlist \
     /opt/backup.sh 2>/dev/null
 
-# 3. 直接上传压缩包至 WebDAV 云端新文件夹中
+# 3. 直接上传压缩包至 WebDAV 云端文件夹
 rclone copy ${TEMP_DIR}/${FILE_NAME} ${REMOTE_NAME}:${REMOTE_DIR}
 
-# 4. 自动删除云端超过 7 天的旧备份
+# 4. 自动清理云端超过 7 天的旧备份
 rclone delete --min-age ${RETENTION_DAYS}d ${REMOTE_NAME}:${REMOTE_DIR}
 
-# 5. 清理 VPS 本地临时文件
+# 5. 清理 VPS 本地临时打包文件
 rm -rf $TEMP_DIR
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！压缩包已成功同步至 ${REMOTE_NAME}:${REMOTE_DIR}"
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！包含 Nginx(443分流/证书)、Wallos 及 OpenList 数据。"
 ```
 
 按 `Ctrl + O` 保存，按 `Enter` 确认，再按 `Ctrl + X` 退出。
