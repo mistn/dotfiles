@@ -53,6 +53,8 @@
 
 - `reply-template.html` — 邮件回复通知模板
 
+![](images/artalk.jpg)
+
 ## Komari
 
 服务器监控工具，Telegram 通知脚本。
