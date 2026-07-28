@@ -70,6 +70,14 @@
 - `__init__.py` — 插件入口（工具栏按钮 + 菜单）
 - `gist_updater.py` — 获取学习数据、更新 Gist
 
+## VPS
+
+Debian 服务器运维文档。
+
+- `backup-tutorial.md` — 全自动打包备份教程
+- `deploy-sop.md` — 新增服务标准部署流程
+- `migration-sop.md` — 新 VPS 全量迁移
+
 ## 使用
 
 ```powershell
