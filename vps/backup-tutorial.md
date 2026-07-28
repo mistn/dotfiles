@@ -2,15 +2,16 @@
 
 ## 第一步：创建/更新脚本文件
 
+在终端运行以下命令打开或创建脚本文件：
+
 ```bash
 nano /opt/backup.sh
 ```
 
-清空或替换为以下全新代码：
+将里面的内容清空（如果是新文件则直接粘贴），替换为以下全新代码：
 
 ```bash
 #!/bin/bash
-
 # =========================================
 # VPS 全自动打包备份脚本
 # =========================================
@@ -30,8 +31,9 @@ mkdir -p $TEMP_DIR
 #    - /etc/nginx      : 443 SNI分流配置 + 各网站conf + 所有SSL证书
 #    - /opt/wallos     : Wallos 账单数据库 + 自定义Logo + docker-compose
 #    - /opt/openlist   : OpenList 网盘数据库 + 挂载账号配置
-#    - /opt/manyacg    : ManyACG 数据库 (manyacg.db) + 配置文件 (config.toml) + data
-#    - /opt/backup.sh   : 备份脚本自身
+#    - /opt/manyacg    : ManyACG 数据库 (manyacg.db) + 配置文件 + data
+#    - /opt/memos      : Memos 笔记数据库 (SQLite) 及所有本地图片附件
+#    - /opt/backup.sh  : 备份脚本自身
 tar -czf ${TEMP_DIR}/${FILE_NAME} \
     --exclude='*manyacg/imgcache*' \
     --exclude='*manyacg/logs*' \
@@ -39,6 +41,7 @@ tar -czf ${TEMP_DIR}/${FILE_NAME} \
     /opt/wallos \
     /opt/openlist \
     /opt/manyacg \
+    /opt/memos \
     /opt/backup.sh 2>/dev/null
 
 # 3. 直接上传压缩包至 WebDAV 云端文件夹
@@ -50,12 +53,14 @@ rclone delete --min-age ${RETENTION_DAYS}d ${REMOTE_NAME}:${REMOTE_DIR}
 # 5. 清理 VPS 本地临时打包文件
 rm -rf $TEMP_DIR
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！已包含 Nginx分流/证书、Wallos、OpenList 及 ManyACG。"
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！已包含 Nginx分流/证书、Wallos、OpenList、ManyACG 及 Memos。"
 ```
 
 按 `Ctrl + O` 保存，按 `Enter` 确认，再按 `Ctrl + X` 退出。
 
 ## 第二步：赋予执行权限并测试运行
+
+运行以下命令确保脚本拥有执行权限，并手动测试运行一次：
 
 ```bash
 # 1. 赋予可执行权限
@@ -66,6 +71,8 @@ chmod +x /opt/backup.sh
 ```
 
 ## 第三步：验证上传结果
+
+使用 rclone 命令查看网盘内是否成功生成了最新的备份文件：
 
 ```bash
 # 查看文件夹列表，应该能看到新增了 vps_backup
@@ -83,10 +90,8 @@ rclone ls infini:vps_backup
 crontab -e
 ```
 
-在文件最底端加入这一行（已有则无需重复）：
+在文件最底端加入这一行（已有则无需重复，无需修改）：
 
-```
+```bash
 0 3 * * * /bin/bash /opt/backup.sh > /dev/null 2>&1
 ```
-
-大功告成！
