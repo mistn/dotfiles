@@ -5,38 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>邮件通知</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-        .container { width: 100%; max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
+        .container { width: 100%; max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08); overflow: hidden; }
         .header {
             background-color: #1a1a1a;
             color: #ffffff;
-            padding: 20px;
-            border-radius: 10px 10px 0 0;
+            padding: 24px 20px;
             text-align: center;
         }
-        .header h1 { margin: 0; font-size: 24px; }
-        .content { padding: 20px; line-height: 1.6; }
-        .content h2 { font-size: 18px; color: #333333; margin-top: 0; }
-        .content p { font-size: 14px; color: #555555; }
-        .content a { color: #1a1a1a; font-weight: bold; text-decoration: none; border-bottom: 1px solid #1a1a1a; }
-        .comment { background-color: #f9f9f9; border-radius: 5px; padding: 15px; margin-bottom: 20px; border-left: 3px solid #1a1a1a; }
-        .comment .author { font-weight: bold; color: #333333; }
-        .comment .text { margin-top: 10px; color: #555555; }
-        .footer { text-align: center; padding: 20px; background-color: #f4f4f4; border-radius: 0 0 10px 10px; font-size: 12px; color: #888888; }
-        .footer a { color: #555555; text-decoration: underline; }
+        .header h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: 0.5px; }
+        .content { padding: 28px 24px; line-height: 1.6; }
+        .content h2 { font-size: 16px; color: #1a1a1a; margin-top: 0; margin-bottom: 12px; font-weight: 600; }
+        .content p { font-size: 14px; color: #555555; margin: 12px 0; }
+        .content a { color: #1a1a1a; font-weight: 600; text-decoration: none; border-bottom: 1px solid #1a1a1a; padding-bottom: 1px; }
+        .comment { background-color: #f8f9fa; border-radius: 6px; padding: 14px 18px; margin: 16px 0; border-left: 3px solid #1a1a1a; }
+        .comment .author { font-size: 13px; font-weight: 600; color: #333333; }
+        .comment .text { margin-top: 8px; font-size: 14px; color: #444444; word-break: break-all; }
+        .footer { text-align: center; padding: 20px; background-color: #f8f9fa; font-size: 12px; color: #888888; border-top: 1px solid #eeeeee; }
+        .footer p { margin: 6px 0; }
+        .footer a { color: #555555; text-decoration: underline; font-weight: normal; border: none; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>您有新的回复</h1>
+            <h1>您在 miuchan's Blog 有新的回复</h1>
         </div>
         <div class="content">
             <h2>Hi, {{nick}}!</h2>
-            <p>您在 <a href="{{page_url}}" target="_blank">{{page_title}}</a> 上的留言有人回复了。</p>
+            <p>您在 <a href="{{page_url}}" target="_blank">{{page_title}}</a> 上的留言收到了新的回复：</p>
 
             <div class="comment">
-                <div class="author">您曾经的评论：</div>
+                <div class="author">您曾经的留言：</div>
                 <div class="text">{{content}}</div>
             </div>
 
@@ -45,11 +45,11 @@
                 <div class="text">{{reply_content}}</div>
             </div>
 
-            <p>点击 <a href="{{link_to_reply}}" target="_blank">这里</a> 前往站点查看完整回复。</p>
+            <p style="margin-top: 24px;">点击 <a href="{{link_to_reply}}" target="_blank">查看完整回复</a> 或参与讨论。</p>
         </div>
         <div class="footer">
-            <p>本邮件由系统自动发送，但随时欢迎直接回复本邮件与我交流！</p>
-            <p>Copyright &copy; 2026 <a href="https://miuo.me" target="_blank">miuo</a></p>
+            <p>本邮件由系统自动发送，随时欢迎直接回复本邮件与我交流！</p>
+            <p>Copyright &copy; 2026 <a href="https://miuchan.com" target="_blank">miuchan</a>. All rights reserved.</p>
         </div>
     </div>
 </body>
