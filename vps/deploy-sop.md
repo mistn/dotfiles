@@ -1,10 +1,11 @@
-# VPS 部署新服务 SOP
+﻿# VPS 部署新服务 SOP
 
 ## 1. Docker 部署
 
 ```bash
 mkdir -p /opt/[软件名]
 
+# 提示：若镜像存在权限问题（如 OpenList），可在命令中加 --user 0:0
 docker run -d \
   --name [软件名] \
   --restart unless-stopped \
@@ -20,25 +21,25 @@ docker run -d \
 
 # 申请证书（临时停 Nginx 释放 80 端口）
 systemctl stop nginx
-~/.acme.sh/acme.sh --issue -d [二级域名].miuo.me --standalone --listen-v4
+~/.acme.sh/acme.sh --issue -d [二级域名].miuchan.com --standalone --listen-v4
 
 # 安装证书
-~/.acme.sh/acme.sh --install-cert -d [二级域名].miuo.me \
-  --key-file       /etc/nginx/cert/[二级域名].miuo.me.key \
-  --fullchain-file /etc/nginx/cert/[二级域名].miuo.me.crt
+~/.acme.sh/acme.sh --install-cert -d [二级域名].miuchan.com \
+  --key-file       /etc/nginx/cert/[二级域名].miuchan.com.key \
+  --fullchain-file /etc/nginx/cert/[二级域名].miuchan.com.crt
 ```
 
 ## 3. Nginx 配置
 
 ```bash
-nano /etc/nginx/conf.d/[二级域名].miuo.me.conf
+nano /etc/nginx/conf.d/[二级域名].miuchan.com.conf
 ```
 
 ```nginx
 server {
     listen 80;
     listen [::]:80;
-    server_name [二级域名].miuo.me;
+    server_name [二级域名].miuchan.com;
     return 301 https://$host$request_uri;
 }
 
@@ -46,10 +47,10 @@ server {
     listen 4443 ssl;
     listen [::]:4443 ssl;
     http2 on;
-    server_name [二级域名].miuo.me;
+    server_name [二级域名].miuchan.com;
 
-    ssl_certificate /etc/nginx/cert/[二级域名].miuo.me.crt;
-    ssl_certificate_key /etc/nginx/cert/[二级域名].miuo.me.key;
+    ssl_certificate /etc/nginx/cert/[二级域名].miuchan.com.crt;
+    ssl_certificate_key /etc/nginx/cert/[二级域名].miuchan.com.key;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
@@ -93,7 +94,7 @@ server {
 nginx -t && systemctl start nginx
 ```
 
-浏览器访问 `https://[二级域名].miuo.me` 验证。
+浏览器访问 `https://[二级域名].miuchan.com:4443` 验证。
 
 ## 5. 纳入自动备份
 

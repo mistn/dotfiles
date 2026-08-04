@@ -28,20 +28,18 @@ RETENTION_DAYS=7                 # 云端保留最近 7 天的备份
 mkdir -p $TEMP_DIR
 
 # 2. 打包核心文件与数据（已排除缓存与日志，节省空间）
-#    - /etc/nginx      : 443 SNI分流配置 + 各网站conf + 所有SSL证书
-#    - /opt/wallos     : Wallos 账单数据库 + 自定义Logo + docker-compose
-#    - /opt/openlist   : OpenList 网盘数据库 + 挂载账号配置
-#    - /opt/manyacg    : ManyACG 数据库 (manyacg.db) + 配置文件 + data
-#    - /opt/memos      : Memos 笔记数据库 (SQLite) 及所有本地图片附件
+#    - /etc/nginx      : Nginx 站点配置 + 所有 SSL 证书
+#    - /opt/wallos     : Wallos 账单数据库 + 数据
+#    - /opt/list       : OpenList 网盘数据库 + 配置文件 (原 /opt/openlist)
+#    - /opt/manyacg    : ManyACG 数据库 + 配置文件 + data
 #    - /opt/backup.sh  : 备份脚本自身
 tar -czf ${TEMP_DIR}/${FILE_NAME} \
     --exclude='*manyacg/imgcache*' \
     --exclude='*manyacg/logs*' \
     /etc/nginx \
     /opt/wallos \
-    /opt/openlist \
+    /opt/list \
     /opt/manyacg \
-    /opt/memos \
     /opt/backup.sh 2>/dev/null
 
 # 3. 直接上传压缩包至 WebDAV 云端文件夹
@@ -53,7 +51,7 @@ rclone delete --min-age ${RETENTION_DAYS}d ${REMOTE_NAME}:${REMOTE_DIR}
 # 5. 清理 VPS 本地临时打包文件
 rm -rf $TEMP_DIR
 
-echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！已包含 Nginx分流/证书、Wallos、OpenList、ManyACG 及 Memos。"
+echo "[$(date +'%Y-%m-%d %H:%M:%S')] 备份完成！已包含 Nginx配置/证书、Wallos、OpenList(/opt/list) 及 ManyACG。"
 ```
 
 按 `Ctrl + O` 保存，按 `Enter` 确认，再按 `Ctrl + X` 退出。

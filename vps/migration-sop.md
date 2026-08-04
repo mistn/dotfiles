@@ -19,53 +19,55 @@ rclone copy infini:vps_backup/ /tmp/restore/
 ## 3. 解压恢复
 
 ```bash
+# 找到最新备份并解压归位
 tar -zxvf /tmp/restore/vps_backup_*.tar.gz -C /
 rm -rf /tmp/restore
 ```
 
-解压后 `/etc/nginx`、`/opt/memos`、`/opt/wallos`、`/opt/openlist`、`/opt/manyacg`、`/opt/backup.sh` 全部归位。
+解压完成后，以下路径已自动归位：
+
+- `/etc/nginx` — Nginx 配置与所有 SSL 证书
+- `/opt/list` — OpenList 网盘数据与配置
+- `/opt/wallos` — Wallos 账单数据
+- `/opt/manyacg` — ManyACG 数据库与数据
+- `/opt/backup.sh` — 自动备份脚本自身
 
 ## 4. 拉起服务
 
-**OpenList**（官方脚本安装，先装依赖再覆盖数据）：
-
 ```bash
-# 运行当初使用的官方一键安装脚本
-systemctl stop openlist
-systemctl daemon-reload
-systemctl enable --now openlist
-```
+# 1. 拉起 OpenList 容器
+docker run -d \
+  --name list \
+  --restart unless-stopped \
+  --user 0:0 \
+  -p 127.0.0.1:5244:5244 \
+  -v /opt/list:/opt/openlist/data \
+  -e UMASK=022 \
+  openlistteam/openlist:latest
 
-**Docker 容器**：
+# 2. 拉起 Wallos、ManyACG 等其他容器（使用各自原本的 docker run 或 docker-compose 命令）
 
-```bash
-docker run -d --name memos --restart unless-stopped \
-  -p 127.0.0.1:5230:5230 \
-  -v /opt/memos:/var/opt/memos \
-  neosmemo/memos:stable
-```
-
-Wallos、ManyACG 用原本的 `docker run` 或 `docker-compose` 命令拉起。
-
-**Nginx**：
-
-```bash
+# 3. 启动 Nginx 反向代理
 nginx -t && systemctl start nginx
 ```
 
-## 5. DNS + 定时备份
+## 5. DNS + 证书与定时任务
 
-Cloudflare 将所有 A 记录 IP 改到新 VPS。
+Cloudflare 解析：将所有域名 A 记录的 IP 修改为新 VPS 的 IP。
 
-安装 acme.sh 并设置定时备份：
+安装 acme.sh（用于自动续签证书）：
 
 ```bash
 curl https://get.acme.sh | sh
+```
 
+恢复定时备份任务：
+
+```bash
 crontab -e
 ```
 
-末尾添加：
+在末尾添加一行：
 
 ```
 0 3 * * * /bin/bash /opt/backup.sh > /dev/null 2>&1
