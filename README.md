@@ -72,11 +72,10 @@
 
 ## VPS
 
-Debian 服务器运维文档。
+Debian 服务器运维手册（整合版）。
 
-- `backup-tutorial.md` — 全自动打包备份教程
-- `deploy-sop.md` — 新增服务标准部署流程
-- `migration-sop.md` — 新 VPS 全量迁移
+- `vps-ops.md` — 运维手册（部署新服务 / 换域名 / 全量迁移 / 自动备份）
+- `notes.md` — 运维备忘
 
 ## 使用
 
