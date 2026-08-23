@@ -70,6 +70,15 @@
 - `__init__.py` — 插件入口（工具栏按钮 + 菜单）
 - `gist_updater.py` — 获取学习数据、更新 Gist
 
+## 光标
+
+蕾塞（reze）动态光标，17 款 `.ani` 动画。
+
+- `cursor/*.ani` — 光标动画（pointer/help/work/busy/text 等 17 个）
+- `cursor/右键安装.inf` — 右键安装脚本（安装到 `C:\Windows\Cursors\reze`）
+
+右键 `右键安装.inf` → 安装，然后 设置 → 蓝牙和其他设备 → 鼠标 → 其他鼠标设置 → 指针 → 方案选 `reze`。
+
 ## VPS
 
 Debian 服务器运维手册（整合版）。
