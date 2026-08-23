@@ -53,7 +53,7 @@
 
 - `reply-template.html` — 邮件回复通知模板
 
-![](images/artalk.jpg)
+![](images/artalk.webp)
 
 ## Komari
 
